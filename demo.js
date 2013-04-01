@@ -1,11 +1,10 @@
-function test1() {
-	Whapp.define('MyClass', {
-		foo: function() {
-			alert('baz');
-		}
-	});
+$(function() {
+	$('code').each(function(i, code) {
+		var jscode = $(code).html(),
+			run = new Function(jscode),
+			button = $('<div class="button"><button>Run!</button></div>');
 
-	//var test = new MyClass();
-	//test.foo();		// alerts 'baz'
-	console.log(MyClass);
-}
+		button.insertAfter(code);
+		button.on('click', 'button', run);
+	});
+});

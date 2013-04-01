@@ -3,22 +3,16 @@
 <head>
 	<title>Class demo</title>
 	<meta charset="utf-8" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="lib/Whapp.js"></script>
 	<script src="lib/class/Class.js"></script>
 	<script src="lib/class/ClassManager.js"></script>
-	<!-- <script src=""></script>
-	<script src=""></script>
-	<script src=""></script>
-	<script src=""></script> -->
 	<script src="demo.js"></script>
+	<link rel="stylesheet" href="demo.css"/>
 </head>
-<style type="text/css">
-	code { white-space: pre }
-</style>
 <body>
 <h1>Class declaration</h1>
-<code>
-Whapp.define('MyClass', {
+<div class="sample"><code>Whapp.define('MyClass', {
 	foo: function() {
 		alert('baz');
 	}
@@ -26,7 +20,31 @@ Whapp.define('MyClass', {
 
 var test = new MyClass();
 test.foo();		// alerts 'baz'
-</code>
-<button onclick="test1()">Run</button>
+</code></div>
+
+<h1>Class declaration (with namespace)</h1>
+<div class="sample"><code>Whapp.define('My.other.Class', {
+	foo: function() {
+		alert('other!');
+	}
+});
+
+var test = new My.other.Class();
+test.foo();		// alerts 'other!'
+</code></div>
+
+<h1>Statics</h1>
+<div class="sample"><code>Whapp.define('My.other.ClassWithStatics', {
+	consts: [ 'MY_CONST', 'OTHER_CONST' ],
+	statics: {
+		foo: function() {
+			alert(new Date);
+		}
+	}
+});
+
+My.other.ClassWithStatics.foo();	// alerts a Date object
+alert(My.other.ClassWithStatics.MY_CONST);
+</code></div>
 </body>
 </html>
