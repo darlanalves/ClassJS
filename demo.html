@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class demo</title>
+	<meta charset="utf-8" />
+	<script src="lib/Whapp.js"></script>
+	<script src="lib/class/Class.js"></script>
+	<script src="lib/class/ClassManager.js"></script>
+	<!-- <script src=""></script>
+	<script src=""></script>
+	<script src=""></script>
+	<script src=""></script> -->
+	<script src="demo.js"></script>
+</head>
+<style type="text/css">
+	code { white-space: pre }
+</style>
+<body>
+<h1>Class declaration</h1>
+<code>
+Whapp.define('MyClass', {
+	foo: function() {
+		alert('baz');
+	}
+});
+
+var test = new MyClass();
+test.foo();		// alerts 'baz'
+</code>
+<button onclick="test1()">Run</button>
+</body>
+</html>
