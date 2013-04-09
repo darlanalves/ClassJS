@@ -3,17 +3,12 @@
 <head>
 	<title>Class demo</title>
 	<meta charset="utf-8" />
-	<script src="http://underscorejs.org/underscore-min.js"></script>
+	<!-- script src="http://underscorejs.org/underscore-min.js"></script -->
+	<script src="https://raw.github.com/bestiejs/lodash/v1.1.1/dist/lodash.min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script src="lib/Whapp.js"></script>
-	<script src="lib/core/Class.js"></script>
-	<script src="lib/core/ClassManager.js"></script>
-	<script src="lib/core/EventManager.js"></script>
-	<script src="lib/core/HookManager.js"></script>
-	<script src="lib/core/Component.js"></script>
-	<script src="lib/data/Types.js"></script>
-	<script src="lib/data/Field.js"></script>
-	<script src="lib/data/Model.js"></script>
+	<script src="lodash-dev.js"></script>
+	<script src="lodash.js"></script>
+	<script src="build/all.js"></script>
 	<script src="demo.js" defer="defer"></script>
 	<link rel="stylesheet" href="styles/css/all.css"/>
 	<link rel="stylesheet" href="demo.css"/>
@@ -72,8 +67,18 @@ $('#user-name').html(user.get('name'));
 </div>
 
 <h1>View</h1>
+<b>NOTE:</b> run the sample "Model" before this one!<br/>
 <div class="sample"><code>
+Whapp.define('UserView', {
+	extend: 'Whapp.view.LiveView',
+	template: '<b>{name}</b> is {age} years old!'
+});
+var user = new User({name: 'John Travolta', age: '50'});
+console.log(user.toJSON());
+var view = new UserView({model: user});
+view.appendTo('#view-sample');
 </code>
+<span id="view-sample"></span>
 </div>
 
 <h1>Model</h1>
