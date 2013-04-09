@@ -3,11 +3,19 @@
 <head>
 	<title>Class demo</title>
 	<meta charset="utf-8" />
+	<script src="http://underscorejs.org/underscore-min.js"></script>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="lib/Whapp.js"></script>
-	<script src="lib/class/Class.js"></script>
-	<script src="lib/class/ClassManager.js"></script>
-	<script src="demo.js"></script>
+	<script src="lib/core/Class.js"></script>
+	<script src="lib/core/ClassManager.js"></script>
+	<script src="lib/core/EventManager.js"></script>
+	<script src="lib/core/HookManager.js"></script>
+	<script src="lib/core/Component.js"></script>
+	<script src="lib/data/Types.js"></script>
+	<script src="lib/data/Field.js"></script>
+	<script src="lib/data/Model.js"></script>
+	<script src="demo.js" defer="defer"></script>
+	<link rel="stylesheet" href="styles/css/all.css"/>
 	<link rel="stylesheet" href="demo.css"/>
 </head>
 <body>
@@ -46,5 +54,32 @@ test.foo();		// alerts 'other!'
 My.other.ClassWithStatics.foo();	// alerts a Date object
 alert(My.other.ClassWithStatics.MY_CONST);
 </code></div>
+
+<h1>Model</h1>
+<div class="sample"><code>
+Whapp.define('User', {
+	extend: 'Whapp.data.Model',
+	fields: [
+		{name: 'name'},
+		{name: 'age', type: 'int'}
+	]
+});
+
+var user = new User({name: 'John', age: '25'});
+$('#user-name').html(user.get('name'));
+</code>
+<span>User name: <b id="user-name"></b></span>
+</div>
+
+<h1>View</h1>
+<div class="sample"><code>
+</code>
+</div>
+
+<h1>Model</h1>
+<div class="sample"><code>
+</code>
+</div>
+
 </body>
 </html>
