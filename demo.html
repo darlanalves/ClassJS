@@ -74,9 +74,8 @@ Whapp.define('UserView', {
 	template: '<b>{name}</b> is {age} years old!'
 });
 var user = new User({name: 'John Travolta', age: '50'});
-console.log(user.toJSON());
-var view = new UserView({model: user});
-view.appendTo('#view-sample');
+var view = new UserView({model: user, renderTo: '#view-sample'});
+setTimeout(function() { user.set('name', 'John Wayne'); }, 1500);
 </code>
 <span id="view-sample"></span>
 </div>
