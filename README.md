@@ -9,9 +9,9 @@ The core package provides a basic set of files with a class system and _custom_ 
 DOM events will be delegated to external libs, such as jQuery.
 
 ## View
-The view package is a collection of visual components (buttons, inputs...) to build UI
+The view package is a collection of visual components (buttons, inputs...) to build UI.
 
 ## Model
-The view package is a collection of visual components (buttons, inputs...) to build UI
+The mode is a simple class to represent data entities.
 
-*Enjoy!*
+_CSHF!_
