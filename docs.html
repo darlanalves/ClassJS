@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Class demo</title>
+	<meta charset="utf-8" />
+	<!-- external dependencies -->
+	<script src="lib/jquery-2.0.0.min.js"></script>
+	<script src="lib/lodash-dev.js"></script>
+	<script src="lib/lodash-ext.js"></script>
+
+	<script src="dist/core.js"></script>
+	<script src="dist/service.js"></script>
+	<script src="dist/model.js"></script>
+	<script src="dist/view.js"></script>
+	<script src="dist/form.js"></script>
+	<script src="docs/demo.js"></script>
+	<link rel="stylesheet" href="styles/css/all.css"/>
+	<link rel="stylesheet" href="docs/demo.css"/>
+</head>
+<body>
+<div class="sample">
+<h1>Class declaration</h1>
+<code>Whapp.define('MyClass', {
+	foo: function() {
+		alert('baz');
+	}
+});
+
+var test = new MyClass();
+test.foo();		// alerts 'baz'
+</code></div>
+
+<h1>Class declaration (with namespace)</h1>
+<div class="sample"><code>Whapp.define('My.other.Class', {
+	foo: function() {
+		alert('other!');
+	}
+});
+
+var test = new My.other.Class();
+test.foo();		// alerts 'other!'
+</code></div>
+
+<h1>Statics</h1>
+<div class="sample"><code>Whapp.define('My.other.ClassWithStatics', {
+	consts: [ 'MY_CONST', 'OTHER_CONST' ],
+	statics: {
+		foo: function() {
+			alert(new Date);
+		}
+	}
+});
+
+My.other.ClassWithStatics.foo();	// alerts a Date object
+alert(My.other.ClassWithStatics.MY_CONST);
+</code></div>
+
+<h1>Model</h1>
+<div class="sample"><code>
+Whapp.define('User', {
+	extend: 'Whapp.data.Model',
+	fields: [
+		{name: 'name'},
+		{name: 'age', type: 'int'}
+	]
+});
+
+var user = new User({name: 'John', age: '25'});
+$('#user-name').html(user.get('name'));
+</code>
+<span>User name: <b id="user-name"></b></span>
+</div>
+
+<h1>View</h1>
+<b>NOTE:</b> run the sample "Model" before this one!<br/>
+<div class="sample"><code>
+Whapp.define('UserView', {
+	extend: 'Whapp.view.LiveView',
+	template: '<b>{name}</b> is {age} years old!'
+});
+var user = new User({name: 'John Travolta', age: '50'});
+var view = new UserView({model: user, renderTo: '#view-sample'});
+setTimeout(function() { user.set('name', 'John Wayne'); }, 1500);
+</code>
+<span id="view-sample"></span>
+</div>
+
+<h1>Helpers</h1>
+<div class="sample"><code>// TODO
+</code>
+</div>
+
+</body>
+</html>

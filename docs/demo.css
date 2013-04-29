@@ -1,0 +1,33 @@
+* { margin: 0; padding: 0;}
+body {
+	font-family: sans-serif;
+	padding: 0 20px;
+}
+h1 {
+	line-height: 1.4em;
+	font-size: 1.2em;
+	padding: 1em 0;
+}
+.sample {
+	padding: 10px;
+	background: #fafafa;
+	border: 1px solid #eee;
+}
+.result { float: left; }
+
+.button {
+	margin-top: 10px;
+	text-align: right;
+}
+
+button {
+	padding: 7px 12px;
+	background: whiteSmoke;
+	border: 1px solid #999;
+	color: #333;
+}
+
+code {
+	white-space: pre;
+	clear: both;
+}
