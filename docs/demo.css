@@ -48,11 +48,59 @@ code {
 	text-align: right;
 }
 
-button {
+.modal button,
+.sample button {
 	display: inline-block;
 	margin-left: 10px;
-	padding: 7px 12px;
+	padding: 4px 12px;
 	background: whiteSmoke;
 	border: 1px solid #999;
 	color: #333;
+	border-radius: 3px;
+}
+
+.modal {
+	position: absolute;
+	z-index: 2;
+	top: 20%;
+	left: 50%;
+	margin-left: -200px;
+	width: 400px;
+	border: 1px solid #ddd;
+	background: #fafafa;
+	padding: 20px;
+	box-sizing: border-box;
+	box-shadow: 0 0 6px #ccc;
+}
+
+.modal button {
+	float: right;
+	clear: both;
+}
+
+.modal textarea {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+button.run, button.save {
+	background: #284CCC;
+	border-color: #2B428C;
+	color: rgb(192, 205, 245);
+	font-weight: bold;
+}
+
+button.edit {
+	background: #F7F14C;
+	border-color: #A5A038;
+	color: #594E30;
+	font-weight: bold;
+}
+
+.modal h2 {
+	font-size: 1.3em;
+	padding: 0 0 1em 0;
 }

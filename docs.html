@@ -31,32 +31,32 @@ test.foo();
 
 <code title="Class declaration (with namespace)">
 Class.define('My.ns.ClassOne', {
-	foo: function() {
-		console.log(this.constructor, this.name);
+	constructor: function(string) {
+		console.log(string);
 	}
 });
 
-var test = new My.ns.ClassOne({ name: 'ClassOne' });
-test.foo();
+new My.ns.ClassOne('What about a text over here?');
 </code>
 
 <code title="Statics">
-Whapp.define('My.ns.ClassTwo', {
+Class.define('My.ns.ClassTwo', {
 	statics: {
 		MY_CONST: 'const-value',
 		foo: function() {
-			console.log(new Date);
+			console.log('Hey! I\'m static!');
 		}
 	}
 });
 
-My.other.ClassWithStatics.foo();
-console.log(My.other.ClassWithStatics.MY_CONST);
+My.ns.ClassTwo.foo();
+console.log(My.ns.ClassTwo.MY_CONST);
 </code>
 
 <code title="Models">
+return;
 Class.define('User', {
-	extend: 'Whapp.data.Model',
+	extend: Whapp.model.Model,
 	fields: [
 		{name: 'name'},
 		{name: 'age', type: 'int'}
@@ -68,6 +68,7 @@ console.log(user.get('name'));
 </code>
 
 <code title="Views">
+return;
 Whapp.define('UserView', {
 	extend: 'Whapp.view.LiveView',
 	template: '<b>{name}</b> is {age} years old!'
