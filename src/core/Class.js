@@ -1,9 +1,10 @@
 (function(globalNamespace) {
-	// node module
+	// loads Underscore as a node module
 	if (typeof require !== 'undefined') {
 		var _ = require('underscore');
+		globalNamespace = {};
 	} else {
-		var _ = this._;
+		var _ = globalNamespace._;
 	}
 
 	var clsProto, extend, Class = function() {},
@@ -55,11 +56,13 @@
 
 			if (prototype.hasOwnProperty('constructor')) {
 				NewClass = prototype.constructor;
-			} else {
-				NewClass = function() {
-					return SuperClass.prototype.constructor.apply(this, arguments);
-				};
 			}
+		}
+
+		if (!NewClass) {
+			NewClass = function() {
+				return SuperClass.prototype.constructor.apply(this, arguments);
+			};
 		}
 
 		SuperClassProxy = function() {};
@@ -112,13 +115,13 @@
 	 * Pseudo-namespacing declaration method. Also runs a method in scope of that namespace
 	 * @param {String} ns			The namespace to create/use
 	 * @param {Function} wrapper	Optional function to call in the scope of ns
-	 * @param {Object} scope		Optional scope to use as global
+	 * @param {Object} scope		Optional scope to use as start point
 	 * @return {Object}				Reference to NS
 	 * @static
 	 */
 	Class.namespace = function(ns, fn, scope) {
 		var i, item, len, target;
-		scope = scope || globalNamespace || $this;
+		scope = scope || globalNamespace;
 
 		if ($nsCache[ns] !== undefined) {
 			scope = $nsCache[ns];
@@ -182,25 +185,20 @@
 
 		// if the only part was popped out, use global scope
 		if (nsParts.length === 0) {
-			ns = $this;
+			ns = globalNamespace;
 		} else {
 			ns = Class.namespace(nsParts.join('.'));
 		}
 
 		if (prototype && prototype.hasOwnProperty('extend')) {
+			if (!_.isFunction(prototype.extend)) {
+				throw new Error('Invalid parent class!');
+			}
+
 			_super = prototype.extend;
 			prototype.extend = null;
 			delete prototype.extend;
-
-			if (_.isString(_super)) {
-				_super = Class.namespace(_super);
-			}
-
-			if (!_.isFunction(_super)) {
-				throw new Error('Parent class of "' + className + '" not found!');
-			}
 		}
-		//console.log(arguments, _super);
 
 		ns[className] = newClass = extend(_super, prototype);
 		newClass.$name = className;
@@ -217,21 +215,24 @@
 	Class.create = function(name, config) {
 		var $class = Class.namespace(name);
 		if ($class) {
+			// TODO multiple args? apply to constructor?
 			return new $class(config);
 		}
 
 		throw new Error('Class not found: ' + name);
-	}
+	};
 
-	// Return as AMD module or attach to head object
-	if (typeof define !== "undefined") {
-		define([], function() {
-			return Class;
-		});
-	} else if (globalNamespace) { /** @expose */
+	// alias to namespace
+	Class.ns = Class.namespace;
+
+	// Return as AMD module or attach to global object
+	if (typeof exports !== 'undefined') {
+		if (typeof module !== 'undefined' && module.exports) {
+			exports = module.exports = Class;
+		}
+		exports.Class = Class;
+	} else {
 		globalNamespace.Class = Class;
-	} else { /** @expose */
-		module.exports = Class;
 	}
 
-}.call(this, typeof define !== "undefined" || typeof window === "undefined" ? null : window));
+}(this));

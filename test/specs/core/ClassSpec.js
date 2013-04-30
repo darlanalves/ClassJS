@@ -73,6 +73,11 @@ describe("Class - js classical implementation", function() {
 		expect(scope.Some.name.someValue).toBe(123);
 	});
 
+	it('Tests a class without custom properties', function() {
+		var Class1 = Class.define('My.Class1');
+		expect(Class1).toBeDefined();
+	});
+
 	// tests the declaration of a superclass via prototype.extend
 	it('Checks subclassing via prototype.extend', function() {
 		Class.define('ExtendTest.ClassOne', {
@@ -81,7 +86,7 @@ describe("Class - js classical implementation", function() {
 			}
 		});
 		Class.define('ExtendTest.ClassTwo', {
-			extend: 'ExtendTest.ClassOne'
+			extend: ExtendTest.ClassOne
 		});
 
 		var buildFn = function() {
@@ -90,7 +95,7 @@ describe("Class - js classical implementation", function() {
 
 		var throwFn = function() {
 			Class.define('ExtendTest.ClassThree', {
-				extend: 'Some.silly.ClassName'
+				extend: Some.silly.ClassName
 			});
 		};
 
@@ -106,15 +111,15 @@ describe("Class - js classical implementation", function() {
 			}
 		});
 		Class.define('Use.test.sub.ClassTwo', {
-			extend: 'Use.test.ClassOne',
+			extend: Use.test.ClassOne,
 			me: function() {
 				return 'ClassTwo';
 			}
 		});
 
 		var globals = Class.use('Use.test.ClassOne', 'Use.test.sub.ClassTwo');
-		expect(globals.ClassOne).toBeDefined();
-		expect(globals.ClassTwo).toBeDefined();
+		expect(globals.ClassOne).toEqual(Use.test.ClassOne);
+		expect(globals.ClassTwo).toEqual(Use.test.sub.ClassTwo);
 	});
 
 	it("Should throw exception if this._super is called and local method doesn't exists", function() {
