@@ -64,6 +64,5 @@ module.exports = (pkg)->
 		allFiles = allFiles.concat packages[name].src
 
 	packages.release.src = allFiles
-	# packages.all.src =
 
 	return packages

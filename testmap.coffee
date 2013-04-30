@@ -2,11 +2,10 @@ module.exports = (pkg)->
 	specsPath = 'test/specs'
 	tests =
 		core:
-			src: [
-				"lib/lodash-dev.js"
-				"dist/core.js"
-			]
+			src: "dist/core.js"
 			options:
+				vendor: ["lib/lodash-dev.js"]
+				# helpers: ["#{specsPath}/Helper.js"]
 				specs: [
 					"#{specsPath}/core/ClassSpec.js"
 				]
