@@ -27,5 +27,7 @@ module.exports = (grunt)->
 		'uglify:view',
 		'uglify:form'
 	])
-	grunt.registerTask('release', 	['build', 'test', 'uglify:release'])
-	grunt.registerTask('test', 		['jasmine'])
+	grunt.registerTask('build-demo',	['uglify:demo'])
+	grunt.registerTask('release', 		['build', 'test', 'uglify:release'])
+	grunt.registerTask('test', 			['jasmine'])
+	grunt.registerTask('default', 		['release']);

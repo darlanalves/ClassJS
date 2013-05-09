@@ -2,6 +2,7 @@
 	// loads Underscore as a node module
 	if (typeof require !== 'undefined') {
 		var _ = require('underscore');
+		// nodejs don't have a global object, so we attach the namespaces to a local object
 		globalNamespace = {};
 	} else {
 		var _ = globalNamespace._;
@@ -119,7 +120,7 @@
 	 * @return {Object}				Reference to NS
 	 * @static
 	 */
-	Class.namespace = function(ns, fn, scope) {
+	Class.ns = function(ns, fn, scope) {
 		var i, item, len, target;
 		scope = scope || globalNamespace;
 
@@ -147,6 +148,29 @@
 		return scope;
 	};
 
+	/**
+	 * Returns the reference to a class
+	 * @param {String} name		Class name, like 'My.ns.Class'
+	 * @return {Function}		Class constructor
+	 */
+	Class.get = function(name) {
+		if ($nsCache[name] !== undefined) {
+			return $nsCache[name];
+		}
+
+		var item, parts = name.split('.'),
+			ref = globalNamespace;
+		while (item = parts.shift()) {
+			ref = ref[item];
+			if (ref === undefined) {
+				return null;
+			}
+		}
+
+		$nsCache[name] = ref;
+		return ref;
+	};
+
 	var aliasRe = /\s{1}as\s{1}/i;
 	/**
 	 * Returns an array of class references to use within other classes or functions.
@@ -167,7 +191,7 @@
 		while (i--) {
 			item = args[i];
 			alias = aliasRe.test(item) ? item.split(aliasRe).pop() : item.split('.').pop();
-			result[alias] = Class.namespace(item);
+			result[alias] = Class.get(item);
 		}
 
 		return result;
@@ -187,7 +211,7 @@
 		if (nsParts.length === 0) {
 			ns = globalNamespace;
 		} else {
-			ns = Class.namespace(nsParts.join('.'));
+			ns = Class.ns(nsParts.join('.'));
 		}
 
 		if (prototype && prototype.hasOwnProperty('extend')) {
@@ -203,6 +227,7 @@
 		ns[className] = newClass = extend(_super, prototype);
 		newClass.$name = className;
 		newClass.$className = classNS;
+		$nsCache[classNS] = newClass;
 		return newClass;
 	};
 
@@ -213,17 +238,14 @@
 	 * @param {Object} config
 	 */
 	Class.create = function(name, config) {
-		var $class = Class.namespace(name);
-		if ($class) {
+		var $class = Class.get(name);
+		if ($class !== null) {
 			// TODO multiple args? apply to constructor?
 			return new $class(config);
 		}
 
 		throw new Error('Class not found: ' + name);
 	};
-
-	// alias to namespace
-	Class.ns = Class.namespace;
 
 	// Return as AMD module or attach to global object
 	if (typeof exports !== 'undefined') {

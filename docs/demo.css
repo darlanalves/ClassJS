@@ -3,6 +3,14 @@
 	padding: 0;
 }
 
+.clearfix:after {
+	display: block;
+	content: " ";
+	clear: both;
+	width: 0px;
+	height: 0px;
+}
+
 body {
 	font-family: sans-serif;
 	padding: 0 20px;
@@ -48,8 +56,7 @@ code {
 	text-align: right;
 }
 
-.modal button,
-.sample button {
+button {
 	display: inline-block;
 	margin-left: 10px;
 	padding: 4px 12px;
@@ -59,8 +66,22 @@ code {
 	border-radius: 3px;
 }
 
+button.submit {
+	background: #284CCC;
+	border-color: #2B428C;
+	color: white;
+	font-weight: bold;
+}
+
+button.edit {
+	background: #F7F14C;
+	border-color: #A5A038;
+	color: #594E30;
+	font-weight: bold;
+}
+
 .modal {
-	position: absolute;
+	position: fixed;
 	z-index: 2;
 	top: 20%;
 	left: 50%;
@@ -73,31 +94,12 @@ code {
 	box-shadow: 0 0 6px #ccc;
 }
 
-.modal button {
-	float: right;
-	clear: both;
-}
-
 .modal textarea {
 	width: 100%;
 	box-sizing: border-box;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	padding: 5px;
-}
-
-button.run, button.save {
-	background: #284CCC;
-	border-color: #2B428C;
-	color: rgb(192, 205, 245);
-	font-weight: bold;
-}
-
-button.edit {
-	background: #F7F14C;
-	border-color: #A5A038;
-	color: #594E30;
-	font-weight: bold;
 }
 
 .modal h2 {

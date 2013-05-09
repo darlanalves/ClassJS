@@ -6,7 +6,7 @@
 	 * @class Whapp.view.Component
 	 * @author Darlan
 	 */
-	Whapp.define('Whapp.Component', {
+	Class.define('Whapp.Component', {
         extend: 'Whapp.EventManager',
 
         /**

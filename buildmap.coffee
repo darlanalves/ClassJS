@@ -1,10 +1,12 @@
 module.exports = (pkg)->
 	packages =
+		demo:
+			src: 'src/demo/*.js'
+			dest: 'docs/demo.js'
 		core:
 			src: [
 				"src/core/Class.js",
-				#"src/core/ClassManager.js",
-				#"src/core/EventManager.js",
+				"src/core/EventEmitter.js",
 				#"src/core/HookManager.js",
 				#"src/core/Component.js"
 			]

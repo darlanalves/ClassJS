@@ -53,20 +53,20 @@ describe("Class - js classical implementation", function() {
 	// test namespace declaration
 	it('Namespace method should return an object that makes reference to it', function() {
 		var scope = {};
-		expect(typeof Class.namespace('Some.namespace', null, scope)).toBe('object');
+		expect(typeof Class.ns('Some.namespace', null, scope)).toBe('object');
 	});
 
 	// check if namespaces are working using a specific scope
 	it('Should create a namespace into scope provided', function() {
 		var scope = {};
-		Class.namespace('scopeTest.Ns', null, scope);
+		Class.ns('scopeTest.Ns', null, scope);
 		expect(typeof scope.scopeTest.Ns).toBe('object');
 	});
 
 	// tests the call of a function (wrapper) scoped to new namespace
 	it('Should call a function in scope of a new namespace', function() {
 		var scope = {};
-		Class.namespace('Some.name', function() {
+		Class.ns('Some.name', function() {
 			this.someValue = 123;
 		}, scope);
 
@@ -153,6 +153,11 @@ describe("Class - js classical implementation", function() {
 			x.a();
 		};
 		expect(throwFn).toThrow();
+	});
+
+	it('Shoud return a class by name', function() {
+		Class.define('NameTest.Class');
+		expect(Class.get('NameTest.Class')).toBeDefined();
 	});
 
 });

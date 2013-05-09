@@ -24,4 +24,8 @@
 
 	var z = Class.create('Sub.Class', 'Sub.Class via .create');
 	z.foo();
+
+	console.log('Events:');
+	var Events = Class.get('Whapp.EventEmitter');
+	Class.define('');
 }(this));
