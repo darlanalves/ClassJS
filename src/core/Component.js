@@ -7,7 +7,7 @@
 	 * @author Darlan
 	 */
 	Class.define('Whapp.Component', {
-        extend: 'Whapp.EventManager',
+        extend: 'EventEmitter',
 
         /**
 		 * Destroy this instance

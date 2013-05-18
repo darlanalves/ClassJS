@@ -1,18 +1,9 @@
 (function(globalNamespace) {
-
-	// loads Underscore as a node module
-	if (typeof require !== 'undefined') {
-		var _ = require('underscore');
-		// nodejs don't have a global object, so we attach the namespaces to a local object
-		globalNamespace = {};
-	} else {
-		var _ = globalNamespace._;
-	}
-
-	var __slice = [].slice,
+	var _ = globalNamespace._,
+		__slice = [].slice,
 		__split = /\s+|,\s?/;
 
-	var EventEmitter = Class.create({
+	globalNamespace.EventEmitter = Class.define('EventEmitter', {
 		pauseEvents: false,
 
 		/**
@@ -217,15 +208,5 @@
 			return this;
 		}
 	});
-
-	// Return as AMD module or attach to global object
-	if (typeof exports !== 'undefined') {
-		if (typeof module !== 'undefined' && module.exports) {
-			exports = module.exports = EventEmitter;
-		}
-		exports.EventEmitter = EventEmitter;
-	} else {
-		globalNamespace.Class = EventEmitter;
-	}
 
 }(this));

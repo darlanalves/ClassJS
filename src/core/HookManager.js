@@ -2,7 +2,7 @@
  * Hook Manager class
  * Helps in the handle of method hooks
  */
-Whapp.define('Whapp.view.HookManager', {
+Class.define('Whapp.HookManager', {
     constructor: function() {
         this.hooks = {
             before: [],

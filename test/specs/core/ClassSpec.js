@@ -5,21 +5,12 @@ describe("Class - js classical implementation", function() {
 		expect(new Class() instanceof Class).toBe(true);
 	});
 
-	// tests subclassing
-	it('Class created with Class.extend should be instanceof Class', function() {
-		var SubClass = Class.extend({
-			propOne: true
-		});
-
-		expect(new SubClass() instanceof Class).toBe(true);
-	});
-
 	// http://stackoverflow.com/questions/6075231/how-to-extend-the-javascript-date-object
 	// http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
 	// it('should work with primitives', function() {})
 	// tests a class construction calling SubClass.extend
 	it('Subclasses should have a valid extend method as well', function() {
-		var SubClass = Class.extend({
+		var SubClass = Class.define('SubClassOne', {
 			propTrue: true
 		});
 
@@ -30,7 +21,7 @@ describe("Class - js classical implementation", function() {
 		var third = new ThirdClass();
 
 		// proper subclassing
-		expect(new ThirdClass() instanceof SubClass).toBe(true);
+		expect(third instanceof SubClass).toBe(true);
 
 		// valid prototype chain
 		expect(third.propFalse).toBe(false);
@@ -39,7 +30,7 @@ describe("Class - js classical implementation", function() {
 
 	// tests the declaration of static properties
 	it('Should have support to static properties', function() {
-		var A = Class.extend({
+		var A = Class.define('A', {
 			statics: {
 				STATIC_ONE: 1
 			}
@@ -47,6 +38,7 @@ describe("Class - js classical implementation", function() {
 
 		var a = new A();
 		expect(a.statics).toBeUndefined();
+		expect(A.STATIC_ONE).toBeDefined();
 		expect(A.STATIC_ONE).toEqual(1);
 	});
 
