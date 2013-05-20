@@ -14,10 +14,12 @@ module.exports = (grunt)->
 		uglify: uglify
 		jasmine: testmap(pkg)
 
-	grunt.loadNpmTasks('grunt-contrib-concat')
-	grunt.loadNpmTasks('grunt-contrib-uglify')
-	grunt.loadNpmTasks('grunt-contrib-jasmine')
-	grunt.loadNpmTasks('grunt-contrib-clean')
+	for name of pkg.devDependencies when name.substring(0, 6) is 'grunt-'
+		grunt.loadNpmTasks name
+	#grunt.loadNpmTasks('grunt-contrib-concat')
+	#grunt.loadNpmTasks('grunt-contrib-uglify')
+	#grunt.loadNpmTasks('grunt-contrib-jasmine')
+	#grunt.loadNpmTasks('grunt-contrib-clean')
 
 	grunt.registerTask('build', [
 		'clean:dist',

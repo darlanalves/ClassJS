@@ -1,58 +1,58 @@
 (function(globalNamespace) {
-	//'use strict';
-	// loads Underscore as a node module
+	'use strict';
+
+	// References:
+	// Super method: 		http://ejohn.org/blog/simple-javascript-inheritance/
+	// Class.extend syntax:	Prototype
+	// Prototype setup: 	https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/instanceof
 	if (typeof require !== 'undefined') {
-		// nodejs don't have a global object, so we attach the namespaces to a local object
+		// NodeJS: we don't have a global object, so let's attach the namespaces to a local object
 		globalNamespace = {};
 	}
 
-	var clsProto, extend, Class = function() {},
+	var has = {}.hasOwnProperty,
 		$nsCache = {},
+
 		fnTest = /xyz/.test(function() {
 			xyz();
 		}) ? /\b_super\b/ : /.*/,
-		$this = this,
-		_apply = function(destination, source) {
+
+		copy = function(destination, source) {
 			var name;
 			for (name in source) {
-				if (source.hasOwnProperty(name)) {
+				if (has.call(source, name)) {
 					destination[name] = source[name];
 				}
 			}
 		};
 
-	clsProto = Class.prototype;
-	_apply(clsProto, {
+	/**
+	 * @class Class
+	 * @author Darlan Alves <darlan@moovia.com>
+	 */
+	var Class = function() {};
+
+	var clsProto = Class.prototype;
+	copy(clsProto, {
 		superclass: undefined,
 		self: Class
 	});
 
-	/**
-	 * var SomeClass = Class.extend(TheParent, { propName: 'value' })
-	 * var SomeClass = TheParent.extend({ propName: 'value' });
-	 * @method
-	 * @static
-	 * @param {Function} parent			Superclass
-	 * @param {Object} prototype		prototype
-	 * @method
-	 * @return NewClass
-	 */
-	extend = function(SuperClass, prototype) {
-		var SuperClassProxy, statics = false,
-			members, superProto, NewClass;
+	var extend = function(SuperClass, prototype) {
+		var members, superProto, NewClass, statics = false;
 
 		if (SuperClass && SuperClass === Object) {
 			SuperClass = Class;
 		}
 
 		if (prototype) {
-			if (prototype.hasOwnProperty('statics')) {
+			if (has.call(prototype, 'statics')) {
 				statics = prototype.statics;
 				prototype.statics = false;
 				delete prototype.statics;
 			}
 
-			if (prototype.hasOwnProperty('constructor')) {
+			if (has.call(prototype, 'constructor')) {
 				NewClass = prototype.constructor;
 			}
 		} else {
@@ -65,12 +65,17 @@
 			};
 		}
 
-		superProto = SuperClass.prototype;
-		SuperClassProxy = function() {};
-		SuperClassProxy.prototype = SuperClass.prototype;
-		SuperClassProxy.prototype.__initialize__ = false;
-		NewClass.prototype = new SuperClassProxy();
+		// we use a dummy constructor to provide inheritance mechanism
+		var Surrogate = function() {};
+
+		// a reference to superclass.prototype will allow the 'instanceof' operator to work
+		// with all inherited superclasses of a instance
+		Surrogate.prototype = SuperClass.prototype;
+		Surrogate.prototype.__initialize__ = false;
+		NewClass.prototype = new Surrogate();
 		NewClass.prototype.__initialize__ = true;
+		superProto = SuperClass.prototype;
+
 
 		var name, member;
 		for (name in prototype) {
@@ -86,46 +91,89 @@
 			// - call the proto.name fn in the proper scope (this)
 			// - restore the old _super value
 			// and voila!
-			NewClass.prototype[name] =
-				(typeof member === 'function' && typeof superProto[name] === 'function' && fnTest.test(member)) ?
-				(function(property, superclass, fn) {
-					return function() {
-						var tmp = this._super;
+			NewClass.prototype[name] = (typeof member === 'function' && typeof superProto[name] === 'function' && fnTest.test(member)) ? (function(property, superclass, fn) {
+				return function() {
+					var tmp = this._super;
 
-						// Adds a new ._super() method that references the superclass
-						this._super = superclass[property];
+					// Adds a new ._super() method that references the superclass
+					this._super = superclass[property];
 
-						// The method only need to be bound temporarily, so we
-						// remove it when we're done executing
-						var ret = fn.apply(this, arguments);
-						this._super = tmp;
-						return ret;
-					};
-				}(name, superProto, member)) : member;
+					// The method only need to be bound temporarily, so we
+					// remove it when we're done executing
+					var ret = fn.apply(this, arguments);
+					this._super = tmp;
+					return ret;
+				};
+			}(name, superProto, member)) : member;
 		}
 
+		/**
+		 * TODO decouple cloned instance values
+		 * @ignore
+		 */
+		NewClass.prototype.clone = function() {
+			var me = this,
+				newInstance = new me.self();
+			copy(me, newInstance);
+			return newInstance;
+		};
+
+		/**
+		 * Bind static properties/methods to new class
+		 */
 		if (statics) {
-			_apply(NewClass, statics);
+			copy(NewClass, statics);
 		}
 
-		// this.superclass will reference super proto, while
-		// Class.superclass holds a reference to its parent class
-		NewClass.superclass = SuperClass;
-		NewClass.prototype.superclass = superProto;
+		NewClass.extend = function(prototype) {
+			return extend(this, prototype);
+		}
+
+		// this.superclass gives access to parent class
+		NewClass.superclass = NewClass.prototype.superclass = superProto;
 
 		// this.self is a reference to proto
 		NewClass.prototype.self = NewClass;
-		NewClass.extend = function(prototype) {
-			return extend(this, prototype);
-		};
 
 		return NewClass;
 	};
 
+	/**
+	 * <b>Class inheritance</b>
+	 *
+	 * There are two ways to inherit from a class. Let's create a base class called `MyClass`:
+	 *
+	 * 		var MyClass = Class.define('MyClass', {
+	 * 			property: 'value...'
+	 * 		});
+	 *
+	 *	* Method one: using `Class.extend( TheClass, properties )`
+	 *		var SubClass = Class.extend(MyClass);
+	 *
+	 * 	* Method two: using the `extend` method of a class (only works if a class were created with Class.create)
+	 * 	*
+	 * 		var ThirdClass = MyClass.extend();
+	 *
+	 * A new instance can access the inherited class via 'superclass' property:
+	 *
+	 * 		var third = new ThirdClass();
+	 * 		console.log(third.superclass)	// will show MyClass prototype
+	 *
+	 * @markdown
+	 * @static
+	 * @param {Function} parent			Superclass
+	 * @param {Object} prototype		prototype
+	 * @return {Function}
+	 */
 	Class.extend = function(SuperClass, prototype) {
 		return extend(SuperClass, prototype);
 	};
 
+	/**
+	 * Creates and returns a new class
+	 * @param {Object} prototype		Class own prototype
+	 * @return {Function}
+	 */
 	Class.create = function(prototype) {
 		return extend(Class, prototype);
 	};
@@ -226,21 +274,15 @@
 	 * @param {String} class		Namespaced class name
 	 * @param {Object} prototype
 	 */
-	Class.define = function(classNS, prototype) {
-		var newClass, nsParts = classNS.split('.'),
+	Class.define = function(namespace, prototype) {
+		var NewClass, nsParts = namespace.split('.'),
 			className = nsParts.pop(),
-			_super = Class, ns;
-
-		// if the only part was popped out, use global scope
-		if (nsParts.length === 0) {
-			ns = globalNamespace;
-		} else {
-			ns = Class.ns(nsParts.join('.'));
-		}
+			ns = nsParts.length === 0 ? globalNamespace : Class.ns(nsParts.join('.')),
+			SuperClass = Class;
 
 		if (prototype && prototype.hasOwnProperty('extend')) {
 			var _super = prototype.extend;
-
+			prototype.extend = null; // force a copy of property value
 			if (typeof _super === 'string') {
 				_super = Class.get(_super);
 			}
@@ -249,15 +291,16 @@
 				throw new Error('Invalid parent class!');
 			}
 
-			prototype.extend = null; // ensure the _super var is copied
 			delete prototype.extend;
+			SuperClass = _super;
 		}
 
-		ns[className] = newClass = extend(_super, prototype);
-		newClass.$name = className;
-		newClass.$className = classNS;
-		$nsCache[classNS] = newClass;
-		return newClass;
+		$nsCache[namespace] = ns[className] = NewClass = extend(SuperClass, prototype);
+		NewClass.$name = className;
+		NewClass.$className = namespace;
+		NewClass.$parent = ns;
+
+		return NewClass;
 	};
 
 	/**
