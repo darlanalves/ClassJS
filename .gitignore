@@ -1,5 +1,4 @@
 node_modules
 tmp
-_SpecRunner.html
 .grunt
-dist/*
+dist/*.js
