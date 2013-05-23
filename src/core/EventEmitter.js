@@ -22,7 +22,7 @@
 		 * @param params...					Extra event arguments
 		 */
 		addListener: function(events, callback, context) {
-			if (callback && _.isFunction(callback)) {
+			if (callback && typeof callback === 'function') {
 				var callbacks, event, list, params = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
 				events = events.split(__split);
 				callbacks = this.getListeners();
@@ -59,16 +59,20 @@
 				results = [],
 				fn = function(event) {
 					var ref = callbacks[event],
-						list = [];
+						list = [], i, len;
 
 					if (ref !== undefined) {
-						_.each(ref, function(listener, key) {
+						var iter = function(listener, key) {
 							if (callback && callback === listener.callback && ((context && context === listener.context) || true)) {
 								list.push(delete callbacks[event][key]);
 							} else {
 								list.push(delete callbacks[event]);
 							}
-						});
+						};
+
+						for (i = 0, len = ref.length; i < len; i++) {
+							iter(ref[i], i);
+						}
 					}
 
 					return list;

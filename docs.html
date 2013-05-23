@@ -53,30 +53,5 @@ My.ns.ClassTwo.foo();
 console.log(My.ns.ClassTwo.MY_CONST);
 </code>
 
-<code title="Models">
-return;
-Class.define('User', {
-	extend: Whapp.model.Model,
-	fields: [
-		{name: 'name'},
-		{name: 'age', type: 'int'}
-	]
-});
-
-var user = new User({name: 'John', age: '25'});
-console.log(user.get('name'));
-</code>
-
-<code title="Views">
-return;
-Whapp.define('UserView', {
-	extend: 'Whapp.view.LiveView',
-	template: '<b>{name}</b> is {age} years old!'
-});
-var user = new User({name: 'John Travolta', age: '50'});
-var view = new UserView({model: user, renderTo: '#view-sample'});
-setTimeout(function() { user.set('name', 'John Wayne'); }, 1500);
-</code>
-
 </body>
 </html>
