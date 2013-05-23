@@ -26,6 +26,6 @@
 	z.foo();
 
 	console.log('Events:');
-	var Events = Class.get('Whapp.EventEmitter');
+	var Events = Class.get('EventEmitter');
 	Class.define('');
 }(this));
