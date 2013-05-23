@@ -1,5 +1,4 @@
 node_modules
 tmp
 .grunt
-dist/*.js
 .c9revisions
