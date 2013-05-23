@@ -18,21 +18,14 @@ module.exports = (grunt)->
 
 	grunt.initConfig
 		pkg: pkg
-		clean:
-			dist: 'dist/'
-
 		uglify: uglify
 		jasmine: testmap(pkg)
 
 	for name of pkg.devDependencies when name.substring(0, 6) is 'grunt-'
 		grunt.loadNpmTasks name
 
-	grunt.registerTask('build', [
-		'clean:dist',
-		'uglify:release',
-	])
-
+	grunt.registerTask('build', 		['uglify:latest', 'jasmine'])
 	grunt.registerTask('build-demo',	['uglify:demo'])
-	grunt.registerTask('release', 		['build', 'jasmine'])
+	grunt.registerTask('release', 		['uglify:release', 'jasmine'])
 	grunt.registerTask('test', 			['jasmine'])
-	grunt.registerTask('default', 		['release']);
+	grunt.registerTask('default', 		['build']);

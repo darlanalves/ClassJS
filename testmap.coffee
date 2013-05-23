@@ -1,7 +1,7 @@
 module.exports = (pkg)->
 	tests =
 		core:
-			src: "dist/core.js"
+			src: "dist/classjs-latest.js"
 			options:
 				specs: [
 					"test/core/ClassSpec.js"
