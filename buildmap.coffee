@@ -1,7 +1,6 @@
 module.exports = (pkg)->
 	sources = [
-		"src/core/Class.js",
-		"src/core/EventEmitter.js",
+		'src/core/Class.js'
 	]
 	packages =
 		demo:

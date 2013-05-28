@@ -142,4 +142,22 @@ describe("Class - js classical implementation", function() {
 		expect(sub.test).not.toThrow();
 	});
 
+	it('should create a clone of some instace', function() {
+		var ClonedClass = Class.create({
+			prop: true
+		});
+
+		// creates a instace of our new class
+		var obj1 = new ClonedClass;
+
+		// sets a value to obj1.prop
+		obj1.prop = false;
+
+		// and clones the instance
+		var obj2 = obj1.clone();
+
+		expect(obj2.prop).toBeDefined();
+		expect(obj2.prop).toBe(false);
+	});
+
 });

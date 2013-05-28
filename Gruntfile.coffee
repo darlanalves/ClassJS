@@ -1,25 +1,25 @@
 module.exports = (grunt)->
-	strBanner = '''
-/**
- * ClassJS
- * Author: Darlan Alves <darlan@moovia.com>
- * Built on <%= grunt.template.today("yyyy-mm-dd") %>
- */
-
-
-'''
+	prefix = grunt.file.read('./src/$prefix.js', encoding: 'utf8')
+	suffix = grunt.file.read('./src/$suffix.js', encoding: 'utf8')
 
 	pkg = grunt.file.readJSON('package.json')
+
 	buildmap = require('./buildmap')
 	testmap = require('./testmap')
 
+	# generates a build map
 	uglify = buildmap(pkg)
-	uglify.options = banner: strBanner
+	uglify.options =
+		banner: prefix
+		footer: suffix		# NOTE: this is not implemented yet! It's a task to grunt-wrap!
+
+	# generates a test map
+	jasmine = testmap(pkg)
 
 	grunt.initConfig
 		pkg: pkg
 		uglify: uglify
-		jasmine: testmap(pkg)
+		jasmine: jasmine
 
 	for name of pkg.devDependencies when name.substring(0, 6) is 'grunt-'
 		grunt.loadNpmTasks name

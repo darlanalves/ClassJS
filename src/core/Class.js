@@ -1,16 +1,11 @@
-(function(globalNamespace) {
-	'use strict';
-
+(function() {
 	// References:
 	// Super method: 		http://ejohn.org/blog/simple-javascript-inheritance/
 	// Class.extend syntax:	Prototype
 	// Prototype setup: 	https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/instanceof
-	if (typeof require !== 'undefined') {
-		// NodeJS: we don't have a global object, so let's attach the namespaces to a local object
-		globalNamespace = {};
-	}
 
-	var has = {}.hasOwnProperty,
+	var globalScope = this,
+		has = {}.hasOwnProperty,
 		$nsCache = {},
 
 		fnTest = /xyz/.test(function() {
@@ -24,6 +19,8 @@
 					destination[name] = source[name];
 				}
 			}
+
+			return destination;
 		};
 
 	/**
@@ -108,14 +105,12 @@
 		}
 
 		/**
-		 * TODO decouple cloned instance values
-		 * @ignore
+		 * Creates a clone of this instance
+		 * @method
+		 * @return {Object}
 		 */
 		NewClass.prototype.clone = function() {
-			var me = this,
-				newInstance = new me.self();
-			copy(me, newInstance);
-			return newInstance;
+			return copy(new this.self(), this);
 		};
 
 		/**
@@ -189,7 +184,7 @@
 	 */
 	Class.ns = function(ns, fn, scope) {
 		var i, item, len, target;
-		scope = scope || globalNamespace;
+		scope = scope || globalScope;
 
 		if (!ns) {
 			return scope;
@@ -231,7 +226,7 @@
 		}
 
 		var item, parts = name.split('.'),
-			ref = globalNamespace;
+			ref = globalScope;
 		while (item = parts.shift()) {
 			ref = ref[item];
 			if (ref === undefined) {
@@ -277,7 +272,7 @@
 	Class.define = function(namespace, prototype) {
 		var NewClass, nsParts = namespace.split('.'),
 			className = nsParts.pop(),
-			ns = nsParts.length === 0 ? globalNamespace : Class.ns(nsParts.join('.')),
+			ns = nsParts.length === 0 ? globalScope : Class.ns(nsParts.join('.')),
 			SuperClass = Class;
 
 		if (prototype && prototype.hasOwnProperty('extend')) {
@@ -319,14 +314,5 @@
 		throw new Error('Class not found: ' + name);
 	};
 
-	// Return as AMD module or attach to global object
-	if (typeof exports !== 'undefined') {
-		if (typeof module !== 'undefined' && module.exports) {
-			exports = module.exports = Class;
-		}
-		exports.Class = Class;
-	} else {
-		globalNamespace.Class = Class;
-	}
-
-}(this));
+	exports.Class = Class;
+}.call(this));
