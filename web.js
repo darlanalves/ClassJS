@@ -20,6 +20,6 @@ app.get('/:dir/:file', function(request, response) {
 	readFile(request.params.dir + '/' + request.params.file, response);
 });
 
-var port = 80;
+var port = 5000;
 app.listen(port);
 console.log('Server running on port %d', port);
