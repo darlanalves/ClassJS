@@ -7,7 +7,7 @@ var readFile = function(file, response) {
 	response.sendfile('./' + file, { maxAge: 3600*24*7*1000 });
 };
 
-//app.use(express.logger());
+app.use(express.logger());
 app.use(express.compress());
 
 app.set('title', 'ClassJS');
