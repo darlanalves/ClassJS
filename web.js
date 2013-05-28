@@ -20,6 +20,7 @@ app.get('/:dir/:file', function(request, response) {
 	readFile(request.params.dir + '/' + request.params.file, response);
 });
 
-var port = process.argv.length > 2 ? process.argv[2] : 5000;
+// grabs the port parameter from command-line, or the heroku env port. Fallback to 5k
+var port = process.argv.length > 2 ? process.argv[2] : (process.env.PORT || 5000);
 app.listen(port);
 console.log('Server running on port %d', port);
