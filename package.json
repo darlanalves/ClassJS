@@ -1,6 +1,6 @@
 {
-	"name": "ClassJS",
-	"description": "Pretty simple class system plus an event emitter",
+	"name": "jn-classjs",
+	"description": "Simple class system - supports inheritance, super methods and namespacing",
 	"version": "0.0.1",
 	"repository": {
 		"type": "git",
