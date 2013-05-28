@@ -11,3 +11,6 @@ test/*
 src/demo*
 src/$prefix.js
 src/$suffix.js
+.gitignore
+.npmignore
+.gitmodules
