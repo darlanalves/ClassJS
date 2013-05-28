@@ -1,12 +1,19 @@
 {
 	"name": "ClassJS",
-	"version": "0.1.0",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "3.1.x"
+	},
 	"devDependencies": {
 		"grunt": "~0.4.1",
 		"grunt-contrib-concat": "~0.2.0",
 		"grunt-contrib-uglify": "~0.2.0",
 		"grunt-contrib-jasmine": "~0.4.2",
 		"grunt-contrib-clean": "~0.4.1"
+	},
+	"engines": {
+		"node": "0.x",
+		"npm": "1.2.x"
 	},
 	"main": "dist/classjs-latest.js"
 }
