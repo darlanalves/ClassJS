@@ -1,15 +1,17 @@
 {
 	"name": "jn-classjs",
 	"description": "Simple class system - supports inheritance, super methods and namespacing",
-	"version": "0.0.1",
+	"version": "0.0.2",
+	"author": {
+		"name": "Darlan Alves",
+		"email": "darlan@moovia.com"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jimmynewtron/ClassJS.git"
 	},
-	"dependencies": {
-		"express": "3.1.x"
-	},
 	"devDependencies": {
+		"express": "3.1.x",
 		"grunt": "~0.4.1",
 		"grunt-contrib-concat": "~0.3.0",
 		"grunt-contrib-uglify": "~0.2.1",
@@ -20,5 +22,5 @@
 		"node": "0.x",
 		"npm": "1.2.x"
 	},
-	"main": "dist/classjs-latest.js"
+	"main": "./index"
 }
