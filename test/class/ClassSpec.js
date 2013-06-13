@@ -22,19 +22,6 @@ describe("Class - js classical implementation", function() {
 		expect(cls.property).toBe(true);
 	});
 
-	it('Should create a class with static properties', function() {
-		var A = Class.define('A', {
-			statics: {
-				STATIC_ONE: 1
-			}
-		});
-
-		var a = new A();
-		expect(a.statics).toBeUndefined();
-		expect(A.STATIC_ONE).toBeDefined();
-		expect(A.STATIC_ONE).toEqual(1);
-	});
-
 	// http://stackoverflow.com/questions/6075231/how-to-extend-the-javascript-date-object
 	// http://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
 	// it('should work with primitives', function() {})
@@ -120,44 +107,6 @@ describe("Class - js classical implementation", function() {
 		var modules = Class.use('Use.test.ClassOne', 'Use.test.sub.ClassTwo');
 		expect(modules.ClassOne).toEqual(classOne);
 		expect(modules.ClassTwo).toEqual(classTwo);
-	});
-
-	it("should call superclass method via this._super()", function() {
-		var SuperClass = Class.create({
-			test: function() {
-				return true;
-			}
-		});
-
-		var SubClass = SuperClass.extend({
-			test: function() {
-				return (true && this._super());
-			}
-		});
-
-		var obj = new SuperClass();
-		var sub = new SubClass();
-		expect(obj.test()).toBe(true);
-		expect(sub.test()).toBe(true);
-		expect(sub.test).not.toThrow();
-	});
-
-	it('should create a clone of some instace', function() {
-		var ClonedClass = Class.create({
-			prop: true
-		});
-
-		// creates a instace of our new class
-		var obj1 = new ClonedClass;
-
-		// sets a value to obj1.prop
-		obj1.prop = false;
-
-		// and clones the instance
-		var obj2 = obj1.clone();
-
-		expect(obj2.prop).toBeDefined();
-		expect(obj2.prop).toBe(false);
 	});
 
 });

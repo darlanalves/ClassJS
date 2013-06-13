@@ -1,2 +1,1 @@
-var Class = require('./dist/classjs-latest').Class;
-module.exports = Class;
+module.exports = require('./dist/classjs-latest').Class;

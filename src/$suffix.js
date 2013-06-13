@@ -1,1 +1,1 @@
-}(typeof exports === 'undefined' ? this : exports);
+}(typeof exports === 'object' && exports || this);

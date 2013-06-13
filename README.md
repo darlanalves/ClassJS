@@ -10,4 +10,14 @@ Simple class system - supports inheritance and super methods. This project is ju
 	- Node.js and browser
 	- ~2kb (~1kb gzipped)
 
+# Try it!
+```
+<html>
+<head>
+<script src="http://bit.ly/Zr3dcq"></script>
+</head>
+<body>
+</body>
+</html>
+```
 *LLAP!*
