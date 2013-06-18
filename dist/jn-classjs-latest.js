@@ -1,0 +1,7 @@
+/**
+ * jn-classjs
+ * Author: Darlan Alves <darlan@moovia.com>
+ * Built on 2013-06-17
+ */
+
+!function(){var a=this,b=({}.hasOwnProperty,{}),c=function(){};c.prototype.superclass=void 0,c.prototype.self=c,c.create=function(a){return extend(c,a)},c.ns=function(c,d,e){var f,g,h,i;if(e=e||a,!c)return e;if(void 0!==b[c])e=b[c];else{if(i=c.split("."),0!==i.length)for(f=0,h=i.length;h>f;)g=i[f],e=e[g]||(e[g]={}),f++;b[c]=e}return"function"==typeof d&&d.call(e),e},c.get=function(c){if(!c)return null;if(void 0!==b[c])return b[c];for(var d,e=c.split("."),f=a;d=e.shift();)if(f=f[d],void 0===f)return null;return b[c]=f,f};var d=/\s{1}as\s{1}/i;c.use=function(){for(var a,b,e={},f=arguments,g=f.length;g--;)a=f[g],b=d.test(a)?a.split(d).pop():a.split(".").pop(),e[b]=c.get(a);return e},c.define=function(d,e){var f,g=d.split("."),h=g.pop(),i=0===g.length?a:c.ns(g.join(".")),j=c;if(e&&e.hasOwnProperty("extend")){var k=e.extend;if(e.extend=null,"string"==typeof k&&(k=c.get(k)),"function"!=typeof k)throw new Error("Invalid parent class!");delete e.extend,j=k}return b[d]=i[h]=f=extend(j,e),f.$name=h,f.$className=d,f.$parent=i,f},c.newInstance=function(a,b){var d=c.get(a);if(null!==d)return d.prototype.constructor.apply(d,b);throw new Error("Class not found: "+a)},"undefined"!=typeof module&&module.exports?(c.extend=require("extends"),module.exports=c,a.Class=c):(c.extend=a.extend,a.Class=c)}.call(this);

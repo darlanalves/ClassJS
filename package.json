@@ -1,7 +1,7 @@
 {
 	"name": "jn-classjs",
 	"description": "Simple class system - supports super methods and namespacing",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": {
 		"name": "Darlan Alves",
 		"email": "darlan@moovia.com"
@@ -11,7 +11,7 @@
 		"url": "https://github.com/jimmynewtron/ClassJS.git"
 	},
 	"dependencies": {
-		"extends": "0.0.*"
+		"extends": "0.0.2"
 	},
 	"devDependencies": {
 		"express": "3.1.x",

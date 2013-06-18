@@ -1,5 +1,4 @@
-!function(exports) {
-var globalScope = this,
+!function() {var globalScope = this,
 	has = {}.hasOwnProperty,
 	$nsCache = {};
 
@@ -40,7 +39,7 @@ Class.prototype.self = Class;
  * @param {Object} prototype		prototype
  * @return {Function}
  */
-Class.extend = extend;
+
 /**
  * Creates and returns a new class
  * @param {Object} prototype		Class own prototype
@@ -190,5 +189,13 @@ Class.newInstance = function(name, config) {
 
 	throw new Error('Class not found: ' + name);
 };
+    if (typeof module !== 'undefined' && module.exports) {
+		Class.extend = require('extends');
+        module.exports = Class;
+        globalScope.Class = Class;
+    } else {
+		Class.extend = globalScope.extend;
+        globalScope.Class = Class;
+    }
 
-exports.Class = Class;}(typeof exports === 'object' && exports || this);
+}.call(this);

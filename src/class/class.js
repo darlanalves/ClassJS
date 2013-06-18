@@ -39,7 +39,7 @@ Class.prototype.self = Class;
  * @param {Object} prototype		prototype
  * @return {Function}
  */
-Class.extend = extend;
+
 /**
  * Creates and returns a new class
  * @param {Object} prototype		Class own prototype
@@ -189,5 +189,3 @@ Class.newInstance = function(name, config) {
 
 	throw new Error('Class not found: ' + name);
 };
-
-exports.Class = Class;

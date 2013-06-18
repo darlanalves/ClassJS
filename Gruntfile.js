@@ -4,21 +4,21 @@ module.exports = function(grunt) {
 
 	// wrap files
 	var wrap = function(files, dest) {
-		code = grunt.file.read('src/$prefix.js').toString();
+		code = grunt.file.read('build/prefix.js').toString();
 
 		files.forEach(function(file) {
 			code += grunt.file.read(file).toString();
 		});
 
-		code += grunt.file.read('src/$suffix.js').toString();
+		code += grunt.file.read('build/suffix.js').toString();
 		grunt.file.write(dest, code);
 	};
 
 	grunt.registerTask('wrap', function() {
 		var done = this.async();
-		grunt.file.glob('src/class/*.js', null, function(err, files) {
+		grunt.file.glob('src/**/*.js', null, function(err, files) {
 			if (!err) {
-				wrap(files, 'src/$assembled.js');
+				wrap(files, 'build/$assembled.js');
 			}
 
 			done();
@@ -27,30 +27,30 @@ module.exports = function(grunt) {
 
 	var uglify = {
 		options: {
-			banner: grunt.file.read('src/banner.txt').toString()
+			banner: grunt.file.read('build/banner.txt').toString()
 		},
 
 		latest: {
-			src: 'src/$assembled.js',
-			dest: "dist/classjs-latest.js"
+			src: 'build/$assembled.js',
+			dest: 'dist/' + libName + '-latest.js'
 		},
 
 		release: {
-			src: 'src/$assembled.js',
-			dest: 'dist/classjs-' + pkg.version + '.js'
+			src: 'build/$assembled.js',
+			dest: 'dist/' + libName + '-' + pkg.version + '.js'
 		}
 	};
 
 	var jasmine = {
 		latest: {
 			src: [
-				'vendor/extends-0.0.1.js',
-				'dist/classjs-latest.js'
+				'vendor/extends-0.0.2.js',
+				'dist/' + libName + '-latest.js'
 			],
 			options: {
 				keepRunner: true,
-				outfile: 'test.html',
-				specs: "test/class/*Spec.js"
+				outfile: './test.html',
+				specs: "test/**/*Spec.js"
 			}
 		}
 	};

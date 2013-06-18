@@ -1,10 +1,14 @@
 describe("Class - js classical implementation", function() {
 
+	it('checks if Class is defined', function() {
+		expect(typeof Class).not.toBe('undefined');
+	});
+
 	it('should return a instance of Class', function() {
 		expect(new Class() instanceof Class).toBe(true);
 	});
 
-	it('shoud return a class by name', function() {
+	it('should return a class by name', function() {
 		Class.define('NameTest.Class');
 		expect(Class.get('NameTest.Class')).toBeDefined();
 	});
